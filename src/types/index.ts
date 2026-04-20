@@ -1,4 +1,5 @@
 export type Step =
+  | 'setup'
   | 'welcome'
   | 'vitals'
   | 'checkin'
@@ -6,6 +7,8 @@ export type Step =
   | 'reflection'
   | 'intervention'
   | 'card';
+
+export type LLMProvider = 'gemini' | 'openai';
 
 export type InterventionType =
   | 'breathing'
