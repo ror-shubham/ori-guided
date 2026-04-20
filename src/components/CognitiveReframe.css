@@ -1,0 +1,85 @@
+.reframe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  padding: var(--space-xl) 0;
+}
+
+.reframe-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.reframe-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent-warm-glow);
+  border: 1px solid rgba(196, 145, 94, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-warm);
+}
+
+/* ─── Prompt Card ─── */
+.reframe-prompt-card {
+  position: relative;
+  padding: var(--space-xl) var(--space-xl) var(--space-xl) var(--space-2xl);
+  background: var(--gradient-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  overflow: hidden;
+}
+
+.reframe-prompt-decoration {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--gradient-warm);
+  border-radius: 2px;
+}
+
+.reframe-prompt-text {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+/* ─── Actions ─── */
+.reframe-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: 100%;
+}
+
+/* ─── Reflect ─── */
+.reframe-reflect {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: 100%;
+  align-items: flex-end;
+}
+
+.reframe-reflect .input-textarea {
+  min-height: 100px;
+}
+
+/* ─── Complete ─── */
+.reframe-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  text-align: center;
+}

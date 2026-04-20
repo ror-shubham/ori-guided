@@ -1,0 +1,204 @@
+.vitals-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+/* ─── Form ─── */
+.vitals-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.vital-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.vital-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ─── Slider ─── */
+.slider-display {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  min-height: 2rem;
+}
+
+.slider-value-label {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.slider-value-descriptor {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.slider-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Range input reset + custom styles */
+.vital-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--accent-primary) 0%,
+    var(--accent-primary) var(--fill, 50%),
+    var(--border-subtle) var(--fill, 50%),
+    var(--border-subtle) 100%
+  );
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+
+.vital-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  box-shadow:
+    0 0 0 3px rgba(74, 158, 117, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.vital-slider::-webkit-slider-thumb:hover,
+.vital-slider:active::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 6px rgba(74, 158, 117, 0.25),
+    0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.vital-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent-primary);
+  box-shadow:
+    0 0 0 3px rgba(74, 158, 117, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.vital-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: transparent;
+}
+
+/* Step tick marks */
+.slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px; /* aligns with slider thumb edges */
+}
+
+.slider-tick {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--border-subtle);
+  transition: background var(--duration-fast) ease, transform var(--duration-fast) ease;
+}
+
+.slider-tick.filled {
+  background: rgba(74, 158, 117, 0.45);
+}
+
+.slider-tick.current {
+  background: var(--accent-primary);
+  transform: scale(1.5);
+}
+
+/* ─── Option buttons ─── */
+.option-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.option-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.option-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+}
+
+.option-btn.selected {
+  background: rgba(74, 158, 117, 0.08);
+  border-color: rgba(74, 158, 117, 0.4);
+  color: var(--text-primary);
+}
+
+.option-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.option-sublabel {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.option-btn.selected .option-sublabel {
+  color: var(--text-accent);
+}
+
+/* ─── Actions ─── */
+.vitals-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-sm);
+}
+
+.vitals-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: right;
+}

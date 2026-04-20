@@ -1,0 +1,232 @@
+.prescription-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  padding: var(--space-lg) 0;
+}
+
+.prescription-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* ─── The Card ─── */
+.prescription-card {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.prescription-card-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(145deg, #1a2e24 0%, #111916 40%, #1a1d22 70%, #151d19 100%);
+  z-index: 0;
+}
+
+.prescription-card-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(74, 158, 117, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(196, 145, 94, 0.08) 0%, transparent 50%);
+}
+
+.prescription-card-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-subtle);
+  pointer-events: none;
+}
+
+.prescription-card-content {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-2xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* ─── Sections ─── */
+.prescription-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.prescription-section-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ─── Quote ─── */
+.prescription-quote-block {
+  position: relative;
+  padding-left: var(--space-md);
+  border-left: 2px solid var(--accent-primary);
+}
+
+.prescription-quote-decoration {
+  position: absolute;
+  top: -12px;
+  left: -4px;
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  line-height: 1;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.3;
+  pointer-events: none;
+  user-select: none;
+}
+
+.prescription-quote-text {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.prescription-quote-attribution {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: var(--space-xs);
+}
+
+/* ─── Divider ─── */
+.prescription-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: var(--space-xs) 0;
+}
+
+/* ─── Intervention ─── */
+.prescription-intervention-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.prescription-intervention-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--accent-glow);
+  border: 1px solid var(--border-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.prescription-intervention-name {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+
+.intervention-emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* ─── Why This Reset ─── */
+.prescription-why-text {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ─── Tip ─── */
+.prescription-tip-content {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: rgba(196, 145, 94, 0.06);
+  border: 1px solid rgba(196, 145, 94, 0.12);
+  border-radius: var(--radius-md);
+  color: var(--accent-warm);
+}
+
+.prescription-tip-text {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* ─── Footer ─── */
+.prescription-card-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-xl);
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.prescription-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.prescription-brand-orb {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gradient-accent);
+  box-shadow: 0 0 6px rgba(74, 158, 117, 0.4);
+}
+
+.prescription-card-id {
+  font-size: 0.6875rem;
+  font-family: monospace;
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* ─── Actions ─── */
+.prescription-actions {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ─── Disclaimer ─── */
+.prescription-disclaimer {
+  text-align: center;
+  max-width: 400px;
+  opacity: 0.5;
+  font-size: 0.75rem;
+}

@@ -1,0 +1,213 @@
+.journaling-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  min-height: 400px;
+  padding: var(--space-xl);
+}
+
+/* ─── INTRO STATE ─── */
+
+.journaling-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  text-align: center;
+  max-width: 380px;
+}
+
+.journaling-icon-large {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.journaling-intro .heading-section {
+  color: var(--text-primary);
+}
+
+.journaling-intro .body-text {
+  color: var(--text-secondary);
+}
+
+.journaling-intro .body-small {
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.journaling-intro-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+  margin-top: var(--space-md);
+}
+
+/* ─── JOURNAL STATE ─── */
+
+.journaling-journal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Progress Bar */
+.journaling-progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  text-align: center;
+}
+
+.journaling-progress-bar {
+  height: 4px;
+  background: rgba(154, 170, 158, 0.15);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.journaling-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-warm));
+  transition: width 300ms ease-out;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 12px rgba(196, 145, 94, 0.3);
+}
+
+.journaling-progress-text {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+/* Prompt Card */
+.journaling-prompt-card {
+  background: linear-gradient(145deg, var(--bg-card), rgba(21, 29, 25, 0.8));
+  border: 1px solid rgba(154, 170, 158, 0.08);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.journaling-prompt-icon {
+  font-size: 2rem;
+  display: block;
+}
+
+.journaling-prompt-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.journaling-prompt-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Textarea */
+.journaling-textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Actions */
+.journaling-prompt-actions {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+.journaling-prompt-actions .btn-secondary {
+  flex: 1;
+}
+
+.journaling-prompt-actions .btn-primary {
+  flex: 1;
+}
+
+/* Progress Dots */
+.journaling-prompt-dots {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+  margin-top: var(--space-md);
+}
+
+.journaling-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: rgba(154, 170, 158, 0.2);
+  border: 1px solid rgba(154, 170, 158, 0.3);
+  transition: all 300ms var(--ease-out);
+}
+
+.journaling-dot.active {
+  background: var(--accent-warm);
+  border-color: var(--accent-warm);
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(196, 145, 94, 0.4);
+}
+
+.journaling-dot.done {
+  background: var(--accent-warm);
+  border-color: var(--accent-warm);
+  opacity: 0.6;
+}
+
+/* ─── COMPLETE STATE ─── */
+
+.journaling-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  text-align: center;
+}
+
+.journaling-complete .heading-section {
+  color: var(--text-primary);
+}
+
+.journaling-complete .body-text {
+  color: var(--text-secondary);
+  max-width: 340px;
+  line-height: 1.7;
+}
+
+/* ─── RESPONSIVE ─── */
+
+@media (max-width: 600px) {
+  .journaling-container {
+    padding: var(--space-lg);
+  }
+
+  .journaling-prompt-card {
+    padding: var(--space-md);
+  }
+
+  .journaling-prompt-title {
+    font-size: 1.125rem;
+  }
+
+  .journaling-prompt-actions {
+    flex-direction: column;
+  }
+}

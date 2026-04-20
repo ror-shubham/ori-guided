@@ -1,0 +1,56 @@
+.followup-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* ─── User Message Bubble ─── */
+.followup-user-message {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.user-bubble {
+  max-width: 80%;
+  padding: var(--space-md) var(--space-lg);
+  background: rgba(74, 158, 117, 0.1);
+  border: 1px solid rgba(74, 158, 117, 0.15);
+  border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
+}
+
+.user-bubble .body-text {
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ─── Ori Follow-up ─── */
+.followup-ori {
+  /* Uses shared .ori-bubble styles from CheckInStep.css */
+}
+
+/* ─── Input ─── */
+.followup-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}

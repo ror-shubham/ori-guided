@@ -1,0 +1,203 @@
+.reflection-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-xl);
+  padding: var(--space-xl) 0;
+}
+
+/* ─── Reflection Quote ─── */
+.reflection-quote-container {
+  position: relative;
+  width: 100%;
+  padding: var(--space-xl) var(--space-lg);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 800ms var(--ease-out);
+}
+
+.reflection-quote-container.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reflection-quote-mark {
+  position: absolute;
+  top: -4px;
+  left: var(--space-md);
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.35;
+  pointer-events: none;
+  user-select: none;
+}
+
+.reflection-quote-text {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text-primary);
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.reflection-quote-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(ellipse, rgba(74, 158, 117, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+  animation: reflectionGlow 4s ease-in-out infinite;
+}
+
+@keyframes reflectionGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.03); }
+}
+
+/* ─── Transition Line ─── */
+.reflection-transition {
+  text-align: left;
+  width: 100%;
+  margin-top: calc(-1 * var(--space-md));
+}
+
+.reflection-transition .ori-bubble {
+  text-align: left;
+}
+
+.reflection-transition-text {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ─── Intervention Selection ─── */
+.reflection-intervention {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  width: 100%;
+}
+
+/* Intervention Card */
+.intervention-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  padding: var(--space-lg);
+  background: var(--gradient-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  transition:
+    background var(--duration-normal) ease,
+    border-color var(--duration-normal) ease,
+    transform var(--duration-fast) ease;
+}
+
+.intervention-card.primary {
+  padding: var(--space-xl);
+  min-height: 200px;
+  justify-content: center;
+}
+
+.intervention-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.intervention-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.intervention-description {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.intervention-card.primary .btn-primary {
+  margin-top: var(--space-md);
+}
+
+/* Escape Hatch Button */
+.btn-escape-hatch {
+  padding: var(--space-sm) var(--space-md);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    background var(--duration-fast) ease;
+}
+
+.btn-escape-hatch:hover {
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Choice Grid */
+.alternatives-prompt {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-md) 0;
+}
+
+.intervention-choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.intervention-card.choice-card {
+  min-height: 140px;
+  cursor: pointer;
+  position: relative;
+  padding: var(--space-md);
+}
+
+.intervention-card.choice-card:hover {
+  background: linear-gradient(145deg, rgba(74, 158, 117, 0.05) 0%, rgba(74, 158, 117, 0.02) 100%);
+  border-color: var(--border-focus);
+}
+
+.intervention-card.choice-card.selected {
+  background: linear-gradient(145deg, rgba(74, 158, 117, 0.1) 0%, rgba(74, 158, 117, 0.05) 100%);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 1px rgba(74, 158, 117, 0.2);
+}
+
+.selected-badge {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  background: rgba(74, 158, 117, 0.15);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}

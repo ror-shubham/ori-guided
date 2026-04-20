@@ -1,0 +1,127 @@
+/* ─── App Layout ─── */
+.app-wrapper {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.app-main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: stepTransition var(--duration-slow) var(--ease-out);
+}
+
+@keyframes stepTransition {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Loading State ─── */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+/* ─── Error State ─── */
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.error-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  text-align: center;
+  align-items: center;
+}
+
+.error-card .heading-section {
+  color: #e07070;
+}
+
+.error-actions {
+  display: flex;
+  gap: var(--space-md);
+}
+
+/* ─── Top Bar ─── */
+.app-topbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: var(--space-md);
+  z-index: 100;
+}
+
+.topbar-reset-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--accent-warm-glow);
+  border: 1px solid rgba(196, 145, 94, 0.3);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--accent-warm);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.topbar-reset-btn:hover {
+  background: rgba(196, 145, 94, 0.18);
+  border-color: rgba(196, 145, 94, 0.5);
+  transform: translateY(-1px);
+}
+
+.topbar-reset-btn:active {
+  transform: translateY(0);
+}
+
+.topbar-reset-btn svg {
+  flex-shrink: 0;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 600px) {
+  #root {
+    padding: var(--space-md);
+  }
+
+  .heading-display {
+    font-size: 1.625rem;
+  }
+
+  .heading-section {
+    font-size: 1.25rem;
+  }
+
+  .prescription-card-content {
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .pattern-name {
+    font-size: 1.75rem;
+  }
+
+  .prescription-pattern-name {
+    font-size: 1.375rem;
+  }
+}
