@@ -28,7 +28,7 @@ The six interventions:
 
 ### Stack
 
-React 19 · TypeScript 6 · Vite 8. Pure frontend — no backend, no database. The LLM is called directly from the browser using a user-supplied **OpenAI** (`gpt-4o-mini`) or **Google Gemini** (`gemini-2.5-flash`) API key.
+**Frontend:** React 19 · TypeScript 6 · Vite 8. **Backend (v2.1):** Django 5 · DRF. The frontend calls `/api/llm/*` on the backend; the backend holds the provider key and makes the outbound call to **OpenAI** (`gpt-4o-mini`) or **Google Gemini** (`gemini-2.5-flash`) based on its own `LLM_PROVIDER` env var.
 
 ### Architecture
 
@@ -65,6 +65,7 @@ src/
 ### Prerequisites
 
 - **Node.js 20+** and **npm** (Vite 8 and `@types/node` 24 are the floor).
+- **Python 3.11+** for the backend.
 - An API key from **either** [OpenAI](https://platform.openai.com/api-keys) **or** [Google AI Studio](https://aistudio.google.com/app/apikey).
 
 ### Install and run
@@ -72,7 +73,19 @@ src/
 ```bash
 git clone <repo-url>
 cd ori-guided
+
+# Backend (terminal 1)
+cd server
+python -m venv .venv && source .venv/bin/activate
+pip install -e .
+cp .env.example .env        # set LLM_PROVIDER + matching *_API_KEY
+python manage.py migrate
+python manage.py runserver 8000
+
+# Frontend (terminal 2)
+cd ..
 npm install
+cp .env.example .env        # already points at http://localhost:8000
 npm run dev
 ```
 
@@ -89,14 +102,12 @@ The dev server starts at <http://localhost:5173>.
 
 ### First-time configuration
 
-There is no `.env` and no backend — **configuration happens at runtime through the UI**.
+Configuration lives in two `.env` files:
 
-On first load, you'll see an API key setup screen:
+- `server/.env` — `LLM_PROVIDER` (`openai` or `gemini`), the matching `OPENAI_API_KEY` or `GEMINI_API_KEY`, and `CORS_ALLOWED_ORIGINS` (default `http://localhost:5173`).
+- `.env` at the repo root — `VITE_API_BASE_URL` (default `http://localhost:8000`).
 
-1. Pick a provider (**OpenAI** or **Gemini**).
-2. Paste your key.
-3. The key is stored in your browser's `localStorage` under `ori_api_key` and `ori_llm_provider`. It never leaves your browser except in outbound calls to the provider you selected.
-4. A **"Reset API Key"** button is always available in the top bar if you want to switch providers or clear credentials.
+The provider key never reaches the browser. To switch providers, edit `server/.env` and restart the backend.
 
 ---
 
@@ -104,13 +115,11 @@ On first load, you'll see an API key setup screen:
 
 Short notes on the non-obvious choices.
 
-**No backend.** Due to time constraints, the app is frontend only. This further simplified deployment (used Github Pages)
-
+**Server-held LLM keys (v2.1).** The browser no longer talks to OpenAI / Gemini directly — all five LLM calls are proxied through `/api/llm/*` on the Django backend, which holds the key in a server env var. See [server/README.md](server/README.md).
 
 **Step machine instead of a router.** The flow is strictly linear with one conditional branch (follow-up). Did not implement a router to keep things simple.
 
-
-**`localStorage` insted of `env variable`for the API key.** There's no backend to hold the key, frontend will expose the key while calling opean-ai, if key is stored in env variable. Falling back to user provided key for prototype
+**CORS allow-list, no auth yet.** Access is gated by exact-origin CORS only. Auth and rate limits are intentionally deferred to v2.2 / v2.1-followup. Until both ship, do not expose the API on a public URL — anyone who finds it can burn provider credits.
 
 ---
 

@@ -17,6 +17,21 @@ dist-ssr
 .env.*
 !.env.example
 
+# Python packaging artifacts
+*.egg-info/
+*.egg
+.eggs/
+build/
+dist/
+
+# Python virtual environments
+venv/
+.venv/
+env/
+.env/
+__pycache__/
+*.py[cod]
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
