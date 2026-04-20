@@ -1,10 +1,9 @@
 import { useState, useCallback, lazy, Suspense } from 'react';
 import type { Step, StressAnalysis, VitalSigns, RoutingResult, InterventionType, InterventionContent } from './types';
-import { assessFollowUp, getStressAnalysis, routeInterventionWithLLM, generateInterventionIntro, generateSessionInsight, getStoredApiKey, clearLLMConfig } from './services/llm';
+import { assessFollowUp, getStressAnalysis, routeInterventionWithLLM, generateInterventionIntro, generateSessionInsight } from './services/llm';
 import ProgressBar from './components/ProgressBar';
 import TypingIndicator from './components/TypingIndicator';
 import WelcomeScreen from './components/WelcomeScreen';
-import APIKeySetup from './components/APIKeySetup';
 import VitalSignsStep from './components/VitalSignsStep';
 import CheckInStep from './components/CheckInStep';
 import FollowUpStep from './components/FollowUpStep';
@@ -20,16 +19,7 @@ const MovementReset = lazy(() => import('./components/MovementReset'));
 const MentalRehearse = lazy(() => import('./components/MentalRehearse'));
 
 function App() {
-  const [step, setStep] = useState<Step>(() => getStoredApiKey() ? 'welcome' : 'setup');
-
-  const handleResetApiKey = () => {
-    clearLLMConfig();
-    setStep('setup');
-  };
-
-  const handleApiConfigured = () => {
-    setStep('welcome');
-  };
+  const [step, setStep] = useState<Step>('welcome');
 
   const [vitals, setVitals] = useState<VitalSigns | null>(null);
   const [checkinResponse, setCheckinResponse] = useState('');
@@ -199,9 +189,6 @@ function App() {
     }
 
     switch (step) {
-      case 'setup':
-        return <APIKeySetup onConfigured={handleApiConfigured} />;
-
       case 'welcome':
         return <WelcomeScreen onBegin={handleBegin} />;
 
@@ -276,21 +263,6 @@ function App() {
   return (
     <>
       <div className="ambient-glow" />
-      {step !== 'setup' && (
-        <div className="app-topbar">
-          <button
-            className="topbar-reset-btn"
-            onClick={handleResetApiKey}
-            title="Reset API key configuration"
-            aria-label="Reset API key"
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M1.5 4h13M2 4v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4M6.5 4V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1" />
-            </svg>
-            Reset API Key
-          </button>
-        </div>
-      )}
       <div className="app-wrapper">
         <ProgressBar currentStep={step} />
         <main className="app-main" key={step}>
