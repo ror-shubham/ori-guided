@@ -40,7 +40,6 @@ export default function BreathingExercise({ content, onComplete }: BreathingExer
     }
 
     setPhaseIndex(nextPhaseIndex);
-    setCountdown(PHASES[nextPhaseIndex].duration);
   }, [phaseIndex, cycle]);
 
   useEffect(() => {
