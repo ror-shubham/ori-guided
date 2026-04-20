@@ -2,6 +2,8 @@
 
 An AI-guided 5-minute stress check-in that routes you to a personalized micro-intervention, narrated by **Ori** — WONE's (Walking on Earth) wellbeing coach persona.
 
+Deployed at: https://ori.w3shubh.com/
+
 ---
 
 ## What it is
