@@ -1,0 +1,97 @@
+name: Release (Versioned Deployment)
+
+# Triggered by a version tag (e.g. v1.2.3) pushed from main.
+# Creates:
+#   - Backend Vercel preview aliased to  v1-2-3-api.ori.w3shubh.com
+#   - Frontend Vercel preview aliased to v1-2-3.ori.w3shubh.com
+#   - GitHub Release with both deployment URLs
+#
+# Required secrets:
+#   VERCEL_TOKEN, VERCEL_ORG_ID,
+#   VERCEL_BACKEND_PROJECT_ID, VERCEL_FRONTEND_PROJECT_ID
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: versioned
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Derive version slug
+        id: ver
+        run: |
+          tag="${GITHUB_REF#refs/tags/}"
+          slug=$(echo "$tag" | sed 's/\./-/g')
+          echo "tag=$tag"   >> $GITHUB_OUTPUT
+          echo "slug=$slug" >> $GITHUB_OUTPUT
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      # ── Backend ────────────────────────────────────────────────────────────
+      - name: Build backend
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: server
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_BACKEND_PROJECT_ID }}
+
+      - name: Deploy backend preview
+        id: backend
+        run: |
+          url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          alias="${{ steps.ver.outputs.slug }}-api.ori.w3shubh.com"
+          vercel alias set "$url" "$alias" --token=${{ secrets.VERCEL_TOKEN }}
+          echo "url=https://$alias" >> $GITHUB_OUTPUT
+        working-directory: server
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_BACKEND_PROJECT_ID }}
+
+      # ── Frontend ───────────────────────────────────────────────────────────
+      - name: Install frontend deps
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+        env:
+          VITE_API_BASE_URL: ${{ steps.backend.outputs.url }}
+
+      - name: Deploy frontend preview
+        id: frontend
+        run: |
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          alias="${{ steps.ver.outputs.slug }}.ori.w3shubh.com"
+          vercel alias set "$url" "$alias" --token=${{ secrets.VERCEL_TOKEN }}
+          echo "url=https://$alias" >> $GITHUB_OUTPUT
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_FRONTEND_PROJECT_ID }}
+
+      # ── GitHub Release ─────────────────────────────────────────────────────
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          generate_release_notes: true
+          body: |
+            ## Deployments
+
+            | | URL |
+            |---|---|
+            | Frontend | ${{ steps.frontend.outputs.url }} |
+            | Backend API | ${{ steps.backend.outputs.url }} |
