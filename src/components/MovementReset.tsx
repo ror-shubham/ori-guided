@@ -58,8 +58,9 @@ export default function MovementReset({ content, onComplete }: MovementResetProp
         if (prev <= 1) {
           // Move to next movement
           if (currentMoveIndex < MOVEMENT_PHASES.length - 1) {
-            setCurrentMoveIndex((i) => i + 1);
-            return MOVEMENT_PHASES[currentMoveIndex + 1].duration;
+            const nextIndex = currentMoveIndex + 1;
+            setCurrentMoveIndex(nextIndex);
+            return MOVEMENT_PHASES[nextIndex].duration;
           } else {
             // All movements complete
             setFinished(true);
@@ -79,8 +80,9 @@ export default function MovementReset({ content, onComplete }: MovementResetProp
 
   const handleSkipMovement = useCallback(() => {
     if (currentMoveIndex < MOVEMENT_PHASES.length - 1) {
-      setCurrentMoveIndex((i) => i + 1);
-      setTimeRemaining(MOVEMENT_PHASES[currentMoveIndex + 1].duration);
+      const nextIndex = currentMoveIndex + 1;
+      setCurrentMoveIndex(nextIndex);
+      setTimeRemaining(MOVEMENT_PHASES[nextIndex].duration);
     } else {
       setFinished(true);
     }
