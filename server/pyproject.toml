@@ -1,7 +1,7 @@
 [project]
 name = "ori-guided-server"
 version = "0.1.0"
-description = "Django + DRF backend for ori-guided (v2.1: server-held LLM keys)."
+description = "Django + DRF backend for ori-guided (v2.2: auth)."
 requires-python = ">=3.11"
 dependencies = [
     "Django>=5.0,<6",
@@ -9,6 +9,10 @@ dependencies = [
     "django-cors-headers>=4.3",
     "openai>=1.40",
     "python-dotenv>=1.0",
+    "dj-rest-auth>=6.0",
+    "djangorestframework-simplejwt>=5.3",
+    "django-allauth>=0.61",
+    "requests>=2.31",
 ]
 
 [build-system]
@@ -16,4 +20,4 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["config", "apps", "apps.llm"]
+packages = ["config", "apps", "apps.accounts", "apps.llm"]

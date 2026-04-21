@@ -5,6 +5,7 @@ import type {
   RoutingResult,
   InterventionContent,
 } from '../types';
+import { clearTokens, getAccessToken, refreshAccessToken } from './auth';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -15,11 +16,26 @@ if (!API_BASE_URL) {
 }
 
 async function post<T>(path: string, body: unknown): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
+  const attempt = (token: string | null) =>
+    fetch(`${API_BASE_URL}${path}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify(body),
+    });
+
+  let response = await attempt(getAccessToken());
+
+  if (response.status === 401) {
+    const newToken = await refreshAccessToken();
+    if (!newToken) {
+      clearTokens();
+      throw new Error('Session expired. Please log in again.');
+    }
+    response = await attempt(newToken);
+  }
 
   if (!response.ok) {
     const detail = await response.text();

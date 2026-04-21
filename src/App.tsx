@@ -1,6 +1,7 @@
 import { useState, useCallback, lazy, Suspense } from 'react';
 import type { Step, StressAnalysis, VitalSigns, RoutingResult, InterventionType, InterventionContent } from './types';
 import { assessFollowUp, getStressAnalysis, routeInterventionWithLLM, generateInterventionIntro, generateSessionInsight } from './services/llm';
+import { isAuthenticated, logout } from './services/auth';
 import ProgressBar from './components/ProgressBar';
 import TypingIndicator from './components/TypingIndicator';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -9,6 +10,7 @@ import CheckInStep from './components/CheckInStep';
 import FollowUpStep from './components/FollowUpStep';
 import ReflectionStep from './components/ReflectionStep';
 import PrescriptionCard from './components/PrescriptionCard';
+import AuthScreen from './components/AuthScreen';
 import './App.css';
 
 const BreathingExercise = lazy(() => import('./components/BreathingExercise'));
@@ -19,6 +21,7 @@ const MovementReset = lazy(() => import('./components/MovementReset'));
 const MentalRehearse = lazy(() => import('./components/MentalRehearse'));
 
 function App() {
+  const [authed, setAuthed] = useState(isAuthenticated());
   const [step, setStep] = useState<Step>('welcome');
 
   const [vitals, setVitals] = useState<VitalSigns | null>(null);
@@ -145,6 +148,12 @@ function App() {
     setIsLoading(false);
   };
 
+  const handleLogout = useCallback(async () => {
+    await logout();
+    setAuthed(false);
+    handleRestart();
+  }, []);
+
   const renderStep = () => {
     if (isLoading) {
       return (
@@ -260,9 +269,27 @@ function App() {
     }
   };
 
+  if (!authed) {
+    return (
+      <>
+        <div className="ambient-glow" />
+        <AuthScreen onAuth={() => setAuthed(true)} />
+      </>
+    );
+  }
+
   return (
     <>
       <div className="ambient-glow" />
+      {step === 'welcome' && (
+        <button
+          className="btn-secondary app-logout"
+          onClick={() => void handleLogout()}
+          type="button"
+        >
+          Sign out
+        </button>
+      )}
       <div className="app-wrapper">
         <ProgressBar currentStep={step} />
         <main className="app-main" key={step}>
