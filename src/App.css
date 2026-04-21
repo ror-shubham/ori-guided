@@ -61,6 +61,16 @@
   gap: var(--space-md);
 }
 
+/* ─── Logout button ─── */
+.app-logout {
+  position: fixed;
+  top: var(--space-md);
+  right: var(--space-md);
+  font-size: 0.8rem;
+  padding: var(--space-xs) var(--space-md);
+  z-index: 10;
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 600px) {
   #root {
