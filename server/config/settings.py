@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "dj_rest_auth",
     "apps.accounts",
     "apps.llm",
+    "apps.history",
 ]
 
 AUTH_USER_MODEL = "accounts.User"

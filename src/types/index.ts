@@ -5,7 +5,8 @@ export type Step =
   | 'followup'
   | 'reflection'
   | 'intervention'
-  | 'card';
+  | 'card'
+  | 'history';
 
 export type InterventionType =
   | 'breathing'
@@ -60,6 +61,41 @@ export interface RoutingResult {
   primary: InterventionType;
   alternative: InterventionType;
   reasoning?: string;
+}
+
+export interface SessionPayload {
+  mood: MoodLevel;
+  energy: EnergyLevel;
+  weightLocation: WeightLocation;
+  contextTrigger: ContextTrigger;
+  checkinResponse: string;
+  followUpQuestion?: string;
+  followUpResponse?: string;
+  llmFlag: LLMFlag;
+  reflection: string;
+  interventionType: InterventionType;
+  sessionInsight?: string;
+  prescriptionQuote?: string;
+  tip?: string;
+}
+
+export interface CheckInRecord {
+  id: number;
+  created_at: string;
+  mood: MoodLevel;
+  energy: EnergyLevel;
+  weight_location: WeightLocation;
+  context_trigger: ContextTrigger;
+  llm_flag: LLMFlag;
+  intervention_type: InterventionType;
+  prescription_quote: string | null;
+  tip: string | null;
+  session_insight: string | null;
+  // detail fields (present in full fetch)
+  checkin_response?: string;
+  follow_up_question?: string | null;
+  follow_up_response?: string | null;
+  reflection?: string;
 }
 
 export interface ConversationState {

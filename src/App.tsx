@@ -1,6 +1,7 @@
 import { useState, useCallback, lazy, Suspense } from 'react';
 import type { Step, StressAnalysis, VitalSigns, RoutingResult, InterventionType, InterventionContent } from './types';
-import { assessFollowUp, getStressAnalysis, routeInterventionWithLLM, generateInterventionIntro, generateSessionInsight } from './services/llm';
+import { assessFollowUp, getStressAnalysis, routeInterventionWithLLM, generateInterventionIntro, generateSessionInsight, saveSession } from './services/llm';
+import HistoryScreen from './components/HistoryScreen';
 import { isAuthenticated, logout } from './services/auth';
 import ProgressBar from './components/ProgressBar';
 import TypingIndicator from './components/TypingIndicator';
@@ -122,16 +123,31 @@ function App() {
     setError(null);
 
     try {
-      // Generate personalized session insight
       const insight = await generateSessionInsight(analysis!, chosenIntervention!, userResponse ?? '', followUpResponse || undefined);
       setSessionInsight(insight);
       setStep('card');
+
+      saveSession({
+        mood: vitals!.mood,
+        energy: vitals!.energy,
+        weightLocation: vitals!.weightLocation,
+        contextTrigger: vitals!.contextTrigger,
+        checkinResponse,
+        followUpQuestion: followUpQuestion || undefined,
+        followUpResponse: followUpResponse || undefined,
+        llmFlag: analysis!.llmFlag,
+        reflection: analysis!.reflection,
+        interventionType: chosenIntervention!,
+        sessionInsight: insight || undefined,
+        prescriptionQuote: analysis!.prescriptionQuote || undefined,
+        tip: analysis!.tip || undefined,
+      }).catch(() => {/* fire-and-forget */});
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
     }
-  }, [analysis, chosenIntervention, followUpResponse]);
+  }, [analysis, checkinResponse, chosenIntervention, followUpQuestion, followUpResponse, vitals]);
 
   const handleRestart = () => {
     setStep('welcome');
@@ -198,8 +214,11 @@ function App() {
     }
 
     switch (step) {
+      case 'history':
+        return <HistoryScreen onClose={() => setStep('welcome')} />;
+
       case 'welcome':
-        return <WelcomeScreen onBegin={handleBegin} />;
+        return <WelcomeScreen onBegin={handleBegin} onOpenHistory={() => setStep('history')} />;
 
       case 'vitals':
         return <VitalSignsStep onSubmit={handleVitalsSubmit} />;

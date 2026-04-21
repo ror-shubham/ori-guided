@@ -4,6 +4,8 @@ import type {
   InterventionType,
   RoutingResult,
   InterventionContent,
+  SessionPayload,
+  CheckInRecord,
 } from '../types';
 import { clearTokens, getAccessToken, refreshAccessToken } from './auth';
 
@@ -15,15 +17,15 @@ if (!API_BASE_URL) {
   );
 }
 
-async function post<T>(path: string, body: unknown): Promise<T> {
+async function authedFetch<T>(path: string, init: RequestInit = {}): Promise<T> {
   const attempt = (token: string | null) =>
     fetch(`${API_BASE_URL}${path}`, {
-      method: 'POST',
+      ...init,
       headers: {
         'Content-Type': 'application/json',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(init.headers ?? {}),
       },
-      body: JSON.stringify(body),
     });
 
   let response = await attempt(getAccessToken());
@@ -43,6 +45,10 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   }
 
   return (await response.json()) as T;
+}
+
+function post<T>(path: string, body: unknown): Promise<T> {
+  return authedFetch<T>(path, { method: 'POST', body: JSON.stringify(body) });
 }
 
 export async function assessFollowUp(
@@ -106,4 +112,12 @@ export async function generateSessionInsight(
     console.error('Failed to generate session insight:', e);
     return '';
   }
+}
+
+export async function saveSession(payload: SessionPayload): Promise<{ id: number; created_at: string }> {
+  return post('/api/history/save', payload);
+}
+
+export async function fetchHistory(): Promise<CheckInRecord[]> {
+  return authedFetch<CheckInRecord[]>('/api/history/');
 }

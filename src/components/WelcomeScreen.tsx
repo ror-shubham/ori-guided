@@ -2,9 +2,10 @@ import './WelcomeScreen.css';
 
 interface WelcomeScreenProps {
   onBegin: () => void;
+  onOpenHistory: () => void;
 }
 
-export default function WelcomeScreen({ onBegin }: WelcomeScreenProps) {
+export default function WelcomeScreen({ onBegin, onOpenHistory }: WelcomeScreenProps) {
   return (
     <div className="welcome-screen step-container">
       <div className="welcome-orb-container slide-up">
@@ -40,6 +41,14 @@ export default function WelcomeScreen({ onBegin }: WelcomeScreenProps) {
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <path d="M3 8h10M9 4l4 4-4 4" />
           </svg>
+        </button>
+
+        <button
+          className="btn-secondary slide-up-delay-4"
+          onClick={onOpenHistory}
+          id="open-history"
+        >
+          View History
         </button>
       </div>
 
